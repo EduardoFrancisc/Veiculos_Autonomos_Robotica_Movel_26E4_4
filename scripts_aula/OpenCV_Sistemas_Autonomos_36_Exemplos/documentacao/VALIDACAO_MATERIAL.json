@@ -1,0 +1,13 @@
+{
+  "slides": 76,
+  "notas_em_todos_os_slides": true,
+  "exemplos_incrementais": 36,
+  "comentario_geral_e_instalacao_em_cada_exemplo": true,
+  "scripts_executados_com_sucesso": 36,
+  "notebook_celulas_codigo_compiladas": 38,
+  "frames_medidos_referencia": 211,
+  "feeds_decodificados_e_conferidos": 2,
+  "fps_recalculado_a_partir_dos_csv": true,
+  "plataforma_dos_benchmarks": "AMD EPYC 9V74, Linux x86_64, OpenCV 4.12.0, 1 thread, sem GPU",
+  "gui_e_upload_colab": "Dependem do ambiente; validação de referência feita sem GUI."
+}

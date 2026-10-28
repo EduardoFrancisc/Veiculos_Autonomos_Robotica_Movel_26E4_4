@@ -1,0 +1,6 @@
+As imagens foram extraidas dos materiais OpenCV previamente enviados pelo professor.
+frontal_kitti.png: frame frontal referenciado como KITTI no pacote original.
+direcao_udacity.mp4 e pista_udacity.png: materiais Udacity incluidos no pacote original.
+camera_frontal_20/: 20 frames distintos do video Udacity, com pequenas variacoes sinteticas controladas.
+metadados_20.csv: angulos de steering sao valores artificiais de demonstracao, NAO fornecidos pelo dataset.
+Uso educacional apenas, respeitando licencas do material de origem.

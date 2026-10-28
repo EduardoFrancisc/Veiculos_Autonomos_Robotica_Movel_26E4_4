@@ -1,0 +1,18 @@
+{
+  "medias_ms": {
+    "resize_ms": 2.5356954545454538,
+    "hsv_ms": 0.6019736363636364,
+    "extracao_v_ms": 0.005255454545454546,
+    "bilateral_ms": 1.6929254545454544,
+    "proc_ms": 4.83585,
+    "loop_ms": 10.216057272727273
+  },
+  "fps_processamento": 206.78887889409307,
+  "fps_loop": 97.88512077644613,
+  "prazo_ms": 33.333333333333336,
+  "percentual_acima_prazo": 0.0,
+  "fator_pi_estimado": 5.0,
+  "loop_pi_ms_estimado": 51.08028636363636,
+  "fps_pi_estimado": 19.577024155289227,
+  "viavel_pi_estimado": false
+}

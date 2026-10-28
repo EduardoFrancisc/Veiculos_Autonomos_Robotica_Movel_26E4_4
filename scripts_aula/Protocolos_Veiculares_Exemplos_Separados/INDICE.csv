@@ -1,0 +1,37 @@
+﻿exemplo,pasta,tema,codigo,colab,video_incluido
+01,01_ambiente,Conferir bibliotecas e relógios,01_ambiente/01_ambiente.py,01_ambiente/01_ambiente.ipynb,dispensado
+02,02_ids_e_payload,Representar IDs e tamanho de payload,02_ids_e_payload/02_ids_e_payload.py,02_ids_e_payload/02_ids_e_payload.ipynb,dispensado
+03,03_codificar_sensores,"Codificar velocidade, RPM e temperatura",03_codificar_sensores/03_codificar_sensores.py,03_codificar_sensores/03_codificar_sensores.ipynb,dispensado
+04,04_decodificar_sensores,Decodificar e conferir a escala,04_decodificar_sensores/04_decodificar_sensores.py,04_decodificar_sensores/04_decodificar_sensores.ipynb,dispensado
+05,05_can_virtual,Enviar a primeira mensagem CAN virtual,05_can_virtual/05_can_virtual.py,05_can_virtual/05_can_virtual.ipynb,dispensado
+06,06_multiplos_receptores,Observar dois assinantes,06_multiplos_receptores/06_multiplos_receptores.py,06_multiplos_receptores/06_multiplos_receptores.ipynb,dispensado
+07,07_filtros_can,Filtrar por ID padrão,07_filtros_can/07_filtros_can.py,07_filtros_can/07_filtros_can.ipynb,dispensado
+08,08_publicacao_10hz,Publicar periodicamente a 10 Hz por sinal,08_publicacao_10hz/08_publicacao_10hz.py,08_publicacao_10hz/08_publicacao_10hz.ipynb,dispensado
+09,09_series_temporais_can,Registrar CSV e plotar três séries,09_series_temporais_can/09_series_temporais_can.py,09_series_temporais_can/09_series_temporais_can.ipynb,dispensado
+10,10_inspecionar_csv_can,Inspecionar o registro produzido,10_inspecionar_csv_can/10_inspecionar_csv_can.py,10_inspecionar_csv_can/10_inspecionar_csv_can.ipynb,dispensado
+11,11_periodo_e_jitter_can,Medir período observado no CAN virtual,11_periodo_e_jitter_can/11_periodo_e_jitter_can.py,11_periodo_e_jitter_can/11_periodo_e_jitter_can.ipynb,dispensado
+12,12_can_classico_e_fd,Comparar CAN clássico e CAN FD,12_can_classico_e_fd/12_can_classico_e_fd.py,12_can_classico_e_fd/12_can_classico_e_fd.ipynb,dispensado
+13,13_arbitragem_e_virtual,Distinguir arbitragem física e ordem da fila,13_arbitragem_e_virtual/13_arbitragem_e_virtual.py,13_arbitragem_e_virtual/13_arbitragem_e_virtual.ipynb,dispensado
+14,14_item_a_processos,Item A completo com dois processos,14_item_a_processos/14_item_a_processos.py,14_item_a_processos/14_item_a_processos.ipynb,dispensado
+15,15_contador_e_ausencias,Detectar ausência e duplicação por contador,15_contador_e_ausencias/15_contador_e_ausencias.py,15_contador_e_ausencias/15_contador_e_ausencias.ipynb,dispensado
+16,16_volume_dados,Estimar volume de dados de uma câmera,16_volume_dados/16_volume_dados.py,16_volume_dados/16_volume_dados.ipynb,sim
+17,17_udp_texto,Enviar um datagrama UDP de texto,17_udp_texto/17_udp_texto.py,17_udp_texto/17_udp_texto.ipynb,dispensado
+18,18_tcp_texto,Conectar cliente e servidor TCP,18_tcp_texto/18_tcp_texto.py,18_tcp_texto/18_tcp_texto.ipynb,dispensado
+19,19_tcp_enquadramento,Enquadrar mensagens no fluxo TCP,19_tcp_enquadramento/19_tcp_enquadramento.py,19_tcp_enquadramento/19_tcp_enquadramento.ipynb,dispensado
+20,20_jpeg_memoria,Codificar e decodificar JPEG em memória,20_jpeg_memoria/20_jpeg_memoria.py,20_jpeg_memoria/20_jpeg_memoria.ipynb,sim
+21,21_fragmentar_udp,Fragmentar e remontar JPEG por índice,21_fragmentar_udp/21_fragmentar_udp.py,21_fragmentar_udp/21_fragmentar_udp.ipynb,sim
+22,22_ausencias_e_duplicatas_udp,Identificar fragmentos ausentes e duplicados,22_ausencias_e_duplicatas_udp/22_ausencias_e_duplicatas_udp.py,22_ausencias_e_duplicatas_udp/22_ausencias_e_duplicatas_udp.ipynb,sim
+23,23_camera_udp_curto,Receber o primeiro feed UDP,23_camera_udp_curto/23_camera_udp_curto.py,23_camera_udp_curto/23_camera_udp_curto.ipynb,sim
+24,24_camera_tcp_curto,Receber o primeiro feed TCP,24_camera_tcp_curto/24_camera_tcp_curto.py,24_camera_tcp_curto/24_camera_tcp_curto.ipynb,sim
+25,25_udp_320_frames,Medir UDP com pelo menos 300 frames,25_udp_320_frames/25_udp_320_frames.py,25_udp_320_frames/25_udp_320_frames.ipynb,sim
+26,26_tcp_320_frames,Medir TCP com pelo menos 300 frames,26_tcp_320_frames/26_tcp_320_frames.py,26_tcp_320_frames/26_tcp_320_frames.ipynb,sim
+27,27_definir_metricas,"Calcular média, jitter e percentis a partir do CSV",27_definir_metricas/27_definir_metricas.py,27_definir_metricas/27_definir_metricas.ipynb,sim
+28,28_item_b_comparacao,Item B completo: UDP versus TCP,28_item_b_comparacao/28_item_b_comparacao.py,28_item_b_comparacao/28_item_b_comparacao.ipynb,sim
+29,29_udp_perda_controlada,Introduzir perda de datagramas de forma controlada,29_udp_perda_controlada/29_udp_perda_controlada.py,29_udp_perda_controlada/29_udp_perda_controlada.ipynb,sim
+30,30_udp_reordenacao,Enviar datagramas fora de ordem e duplicados,30_udp_reordenacao/30_udp_reordenacao.py,30_udp_reordenacao/30_udp_reordenacao.ipynb,sim
+31,31_tamanho_datagrama,Relacionar tamanho de datagrama e chance de remontagem,31_tamanho_datagrama/31_tamanho_datagrama.py,31_tamanho_datagrama/31_tamanho_datagrama.ipynb,sim
+32,32_tcp_nodelay,Comparar TCP_NODELAY no mesmo cenário,32_tcp_nodelay/32_tcp_nodelay.py,32_tcp_nodelay/32_tcp_nodelay.ipynb,sim
+33,33_idade_e_prazo,Comparar idade do frame com o prazo,33_idade_e_prazo/33_idade_e_prazo.py,33_idade_e_prazo/33_idade_e_prazo.ipynb,sim
+34,34_relogios_e_lan,Entender offset entre relógios de dois hosts,34_relogios_e_lan/34_relogios_e_lan.py,34_relogios_e_lan/34_relogios_e_lan.ipynb,sim
+35,35_decisao_arquitetura,Montar evidências para uma decisão de arquitetura,35_decisao_arquitetura/35_decisao_arquitetura.py,35_decisao_arquitetura/35_decisao_arquitetura.ipynb,sim
+36,36_projeto_integrador,Projeto integrador com os itens A e B,36_projeto_integrador/36_projeto_integrador.py,36_projeto_integrador/36_projeto_integrador.ipynb,sim

@@ -1,0 +1,13 @@
+{
+  "cpu": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+  "sistema": "Windows-10-10.0.26300-SP0",
+  "python": "3.11.9",
+  "python_can": "4.6.1",
+  "opencv": "4.14.0",
+  "numpy": "2.4.6",
+  "threads_opencv": 1,
+  "clock": "GetTickCount64()",
+  "resolucao_clock_ns": 15625000.0,
+  "local_da_medicao": "Mesmo host; sockets IPv4 em loopback 127.0.0.1",
+  "gpu": "Não utilizada por estes exemplos"
+}

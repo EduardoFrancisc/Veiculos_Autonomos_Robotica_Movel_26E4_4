@@ -1,0 +1,15 @@
+{
+  "sistema": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "arquitetura": "x86_64",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "modelo_placa": "não identificado",
+  "python": "3.12.14",
+  "opencv": "4.12.0",
+  "numpy": "2.2.6",
+  "threads_opencv": 1,
+  "gpu_utilizada": false,
+  "saida_terminal_tty": false,
+  "temperatura": "vcgencmd não disponível neste sistema",
+  "clock_arm": "vcgencmd não disponível neste sistema",
+  "throttling": "vcgencmd não disponível neste sistema"
+}

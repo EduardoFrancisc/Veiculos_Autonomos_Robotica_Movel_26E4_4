@@ -1,0 +1,41 @@
+{
+  "frames_medidos": 211,
+  "fps_alvo": 30.0,
+  "prazo_ms": 33.333333333333336,
+  "proc_media_ms": 5.228011037914692,
+  "proc_mediana_ms": 5.103642,
+  "proc_p95_ms": 6.1496975,
+  "proc_p99_ms": 7.075211400000003,
+  "fps_processamento": 191.27733142638354,
+  "fps_loop": 178.08752500676962,
+  "loop_p95_ms": 6.666138,
+  "loop_p99_ms": 7.858254400000002,
+  "frames_acima_prazo": 0,
+  "percentual_acima_prazo": 0.0,
+  "interpretacao": "FPS de capacidade offline; não é a taxa nominal da câmera.",
+  "fps_nominal_video": 25.0,
+  "aquecimento_descartado": 10,
+  "frames_lidos": 221,
+  "tamanho": [
+    640,
+    480
+  ],
+  "d": 5,
+  "sigma_cor": 50.0,
+  "sigma_espaco": 50.0,
+  "feed_gravado": false,
+  "ambiente": {
+    "sistema": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "arquitetura": "x86_64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "modelo_placa": "não identificado",
+    "python": "3.12.14",
+    "opencv": "4.12.0",
+    "numpy": "2.2.6",
+    "threads_opencv": 1,
+    "gpu_utilizada": false,
+    "saida_terminal_tty": false
+  },
+  "feed_primeiro_ultimo_conferidos": false,
+  "escopo_loop": "leitura + pipeline + montagem/gravação/exibição se habilitadas + impressão; exclui inicialização, figuras, CSV, flush final e validação do MP4"
+}

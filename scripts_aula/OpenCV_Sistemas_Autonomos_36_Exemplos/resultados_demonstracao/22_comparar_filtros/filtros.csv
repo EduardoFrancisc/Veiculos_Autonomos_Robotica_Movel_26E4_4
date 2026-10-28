@@ -1,0 +1,4 @@
+filtro,mse_referencia
+Gaussian 5 × 5,108.492431640625
+Mediana 5 × 5,186.40037536621094
+Bilateral d=5,58.56004333496094

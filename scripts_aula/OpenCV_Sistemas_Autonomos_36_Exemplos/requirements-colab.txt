@@ -1,0 +1,4 @@
+# Python 3.10+; não instale opencv-python e opencv-python-headless juntos.
+opencv-python-headless==4.12.0.88
+numpy>=2.0,<2.3
+matplotlib>=3.9,<4

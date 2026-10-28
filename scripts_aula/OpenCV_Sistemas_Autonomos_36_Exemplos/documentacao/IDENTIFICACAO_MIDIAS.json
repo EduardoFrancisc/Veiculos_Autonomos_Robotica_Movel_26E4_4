@@ -1,0 +1,18 @@
+{
+  "LICENCA_UDACITY.txt": {
+    "bytes": 1075,
+    "sha256": "07d577c0b1ffde8713b5d3f0cc7ce0c2425b72fa552987126c72a0bb5f763d4c"
+  },
+  "direcao_udacity.mp4": {
+    "bytes": 2641803,
+    "sha256": "2d8e14b46fe89afbc8ad1f718685cf09b83e85a324095031c38186a9f0535417"
+  },
+  "frontal_kitti.png": {
+    "bytes": 893783,
+    "sha256": "bf103e7a67c33549053fd3faa22b4c079434acc967b24995da3bdc7f8ece8c65"
+  },
+  "pista_udacity.png": {
+    "bytes": 468600,
+    "sha256": "2363dd386bb368bcec93d7140a882db0ce2821b8bc6c4fb59f96a37eec2610c4"
+  }
+}

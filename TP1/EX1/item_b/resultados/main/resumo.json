@@ -1,0 +1,41 @@
+{
+  "frames_medidos": 110,
+  "fps_alvo": 30.0,
+  "prazo_ms": 33.333333333333336,
+  "proc_media_ms": 4.83585,
+  "proc_mediana_ms": 4.7255,
+  "proc_p95_ms": 5.37025,
+  "proc_p99_ms": 6.366099999999998,
+  "fps_processamento": 206.78887889409307,
+  "fps_loop": 97.88512077644613,
+  "loop_p95_ms": 11.19071,
+  "loop_p99_ms": 13.193502999999998,
+  "frames_acima_prazo": 0,
+  "percentual_acima_prazo": 0.0,
+  "interpretacao": "FPS de capacidade offline; não é a taxa nominal da câmera.",
+  "fps_nominal_video": 25.0,
+  "aquecimento_descartado": 10,
+  "frames_lidos": 120,
+  "tamanho": [
+    640,
+    480
+  ],
+  "d": 5,
+  "sigma_cor": 50.0,
+  "sigma_espaco": 50.0,
+  "feed_gravado": true,
+  "ambiente": {
+    "sistema": "Windows-10-10.0.26300-SP0",
+    "arquitetura": "AMD64",
+    "cpu": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD",
+    "modelo_placa": "não identificado",
+    "python": "3.11.9",
+    "opencv": "4.14.0",
+    "numpy": "2.4.6",
+    "threads_opencv": 1,
+    "gpu_utilizada": false,
+    "saida_terminal_tty": true
+  },
+  "feed_primeiro_ultimo_conferidos": true,
+  "escopo_loop": "leitura + pipeline + montagem/gravação/exibição se habilitadas + impressão; exclui inicialização, figuras, CSV, flush final e validação do MP4"
+}

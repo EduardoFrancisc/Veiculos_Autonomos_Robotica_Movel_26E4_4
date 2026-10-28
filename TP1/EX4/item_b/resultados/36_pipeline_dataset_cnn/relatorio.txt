@@ -1,0 +1,8 @@
+Entrada RGB: (20, 224, 224, 3)
+Z-score: (20, 224, 224, 3)
+Treino 16 | validacao 4 | aug treino 32
+Media RGB (treino) [0.45631015 0.48742026 0.5148127 ]
+Desvio RGB (treino) [0.12298583 0.15628347 0.19317967]
+ATENCAO: steerings sao simulados; nao servem como rotulos de conducao.
+Rotacao/zoom podem exigir correcao fisica dos rotulos verdadeiros; flip requer theta=-theta.
+Motivos: letterbox preserva proporcao; zscore estabiliza escala; augmentacao amplia variabilidade.

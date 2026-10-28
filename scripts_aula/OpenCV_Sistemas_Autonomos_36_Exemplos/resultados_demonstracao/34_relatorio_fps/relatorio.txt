@@ -1,0 +1,17 @@
+Relatório de desempenho — execução local
+
+Hardware: AMD EPYC 9V74 80-Core Processor; placa: não identificado; arquitetura: x86_64.
+OpenCV: 4.12.0; threads: 1; GPU: não utilizada.
+Pipeline: resize 640×480, BGR→HSV, V e bilateral d=5.
+Frames medidos: 211; aquecimento solicitado: 10.
+Média do processamento: 5.228 ms; FPS do processamento: 191.28.
+FPS do loop: 178.09; p95 do loop: 6.666 ms.
+Meta: 30 FPS; prazo: 33.333 ms.
+Frames acima do prazo: 0 (0.00%).
+
+O resultado descreve a capacidade offline deste hardware sob este protocolo.
+Identificação como Raspberry Pi 4: não confirmada.
+Para avaliar essa placa, repetir a medição nela, registrar clock, temperatura,
+resfriamento, SO, backend de captura e versões, e usar um teste prolongado.
+Mesmo com FPS médio suficiente, verificar p95/p99 e o custo das etapas
+seguintes de percepção. O teste não mede detector de faixas ou obstáculos.

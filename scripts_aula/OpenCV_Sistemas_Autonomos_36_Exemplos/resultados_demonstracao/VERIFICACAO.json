@@ -1,0 +1,188 @@
+{
+  "scripts": [
+    {
+      "arquivo": "01_ambiente.py",
+      "codigo_saida": 0,
+      "duracao_s": 1.661
+    },
+    {
+      "arquivo": "02_leitura_metadados.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.604
+    },
+    {
+      "arquivo": "03_pixels_coordenadas.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.785
+    },
+    {
+      "arquivo": "04_bgr_rgb.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.701
+    },
+    {
+      "arquivo": "05_canais_bgr.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.925
+    },
+    {
+      "arquivo": "06_cinza_e_v.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.831
+    },
+    {
+      "arquivo": "07_uint8_saturacao.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.775
+    },
+    {
+      "arquivo": "08_normalizacao.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.434
+    },
+    {
+      "arquivo": "09_redimensionamento.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.62
+    },
+    {
+      "arquivo": "10_brilho_quadrantes.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.798
+    },
+    {
+      "arquivo": "11_qualidade_basica.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.671
+    },
+    {
+      "arquivo": "12_histograma.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.507
+    },
+    {
+      "arquivo": "13_cdf.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.532
+    },
+    {
+      "arquivo": "14_equalizacao_global.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.723
+    },
+    {
+      "arquivo": "15_clahe_cinza.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.823
+    },
+    {
+      "arquivo": "16_clahe_colorido.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.913
+    },
+    {
+      "arquivo": "17_clahe_cliplimit.py",
+      "codigo_saida": 0,
+      "duracao_s": 1.09
+    },
+    {
+      "arquivo": "18_clahe_grade.py",
+      "codigo_saida": 0,
+      "duracao_s": 1.093
+    },
+    {
+      "arquivo": "19_iluminacao_sombra.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.845
+    },
+    {
+      "arquivo": "20_compressao_jpeg.py",
+      "codigo_saida": 0,
+      "duracao_s": 1.281
+    },
+    {
+      "arquivo": "21_ruido_gaussiano.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.67
+    },
+    {
+      "arquivo": "22_comparar_filtros.py",
+      "codigo_saida": 0,
+      "duracao_s": 1.014
+    },
+    {
+      "arquivo": "23_hsv.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.814
+    },
+    {
+      "arquivo": "24_bilateral_v.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.745
+    },
+    {
+      "arquivo": "25_custo_bilateral.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.747
+    },
+    {
+      "arquivo": "26_abrir_video.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.584
+    },
+    {
+      "arquivo": "27_iterar_frames.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.809
+    },
+    {
+      "arquivo": "28_item_a_completo.py",
+      "codigo_saida": 0,
+      "duracao_s": 1.213
+    },
+    {
+      "arquivo": "29_item_b_stream.py",
+      "codigo_saida": 0,
+      "duracao_s": 2.68
+    },
+    {
+      "arquivo": "30_benchmark_etapas.py",
+      "codigo_saida": 0,
+      "duracao_s": 2.143
+    },
+    {
+      "arquivo": "31_comparar_configuracoes.py",
+      "codigo_saida": 0,
+      "duracao_s": 3.198
+    },
+    {
+      "arquivo": "32_bordas_faixas.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.866
+    },
+    {
+      "arquivo": "33_contornos_obstaculos.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.698
+    },
+    {
+      "arquivo": "34_relatorio_fps.py",
+      "codigo_saida": 0,
+      "duracao_s": 2.279
+    },
+    {
+      "arquivo": "35_raspberry_pi.py",
+      "codigo_saida": 0,
+      "duracao_s": 0.477
+    },
+    {
+      "arquivo": "36_projeto_integrador.py",
+      "codigo_saida": 0,
+      "duracao_s": 3.411
+    }
+  ],
+  "quantidade": 36,
+  "sucessos": 36,
+  "notebook_celulas_compiladas": 38,
+  "protocolo": "Python subprocess, stdout redirecionado, sem GUI, limite 300 frames, aquecimento 10; vídeo de 221 frames termina por EOF."
+}

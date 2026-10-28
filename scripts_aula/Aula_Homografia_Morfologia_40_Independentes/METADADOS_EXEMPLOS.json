@@ -1,0 +1,362 @@
+[
+  {
+    "numero": 1,
+    "arquivo": "01_abrir_duas_vistas.py",
+    "titulo": "Inspecionar duas imagens com sobreposição",
+    "objetivo": "carregar e comparar duas imagens de uma cena de trânsito",
+    "como": "cv2.imread e inspeção de dimensões, canais e área comum",
+    "importancia": "verificar previamente se há sobreposição suficiente entre câmeras",
+    "experimente": "Altere uma imagem por outra de câmera e observe as dimensões"
+  },
+  {
+    "numero": 2,
+    "arquivo": "02_converter_cinza.py",
+    "titulo": "Converter duas vistas para cinza",
+    "objetivo": "obter imagens monocromáticas antes de extrair características",
+    "como": "cv2.cvtColor BGR2GRAY aplicado às duas vistas",
+    "importancia": "ORB utiliza estruturas de intensidade e não precisa de canais RGB",
+    "experimente": "Compare a cena colorida e os níveis de cinza"
+  },
+  {
+    "numero": 3,
+    "arquivo": "03_aumentar_contraste.py",
+    "titulo": "Preparar contraste para encontrar features",
+    "objetivo": "demonstrar o impacto da equalização local na visibilidade de textura",
+    "como": "CLAHE em tons de cinza e comparação visual",
+    "importancia": "as condições de iluminação influenciam detectores de pontos",
+    "experimente": "Teste clipLimit=1.0 e 4.0"
+  },
+  {
+    "numero": 4,
+    "arquivo": "04_detectar_orb.py",
+    "titulo": "Detectar keypoints com ORB",
+    "objetivo": "encontrar pontos de interesse na primeira vista",
+    "como": "cv2.ORB_create, detectAndCompute e drawKeypoints",
+    "importancia": "pontos estáveis são candidatos ao alinhamento entre vistas",
+    "experimente": "Mude nfeatures=500 para nfeatures=2500"
+  },
+  {
+    "numero": 5,
+    "arquivo": "05_orb_duas_vistas.py",
+    "titulo": "Comparar ORB nas duas imagens",
+    "objetivo": "detectar pontos-chave separadamente em câmeras simuladas",
+    "como": "duas execuções de ORB e desenho lado a lado",
+    "importancia": "a quantidade e a distribuição das features afetam a homografia",
+    "experimente": "Compare as regiões da cena onde há mais keypoints"
+  },
+  {
+    "numero": 6,
+    "arquivo": "06_descritores_orb.py",
+    "titulo": "Inspecionar descritores ORB",
+    "objetivo": "entender os vetores binários que descrevem keypoints",
+    "como": "detectAndCompute com verificação das dimensões do descritor",
+    "importancia": "descritores são usados para encontrar correspondências entre imagens",
+    "experimente": "Imprima os primeiros dez valores do primeiro descritor"
+  },
+  {
+    "numero": 7,
+    "arquivo": "07_matcher_crosscheck.py",
+    "titulo": "Comparar descritores com crossCheck",
+    "objetivo": "entender o pareamento com distância de Hamming",
+    "como": "BFMatcher(NORM_HAMMING,crossCheck=True) e match",
+    "importancia": "matching direto pode conter pares incorretos",
+    "experimente": "Observe os menores e maiores valores de distância"
+  },
+  {
+    "numero": 8,
+    "arquivo": "08_matcher_knn.py",
+    "titulo": "Obter dois vizinhos para cada descriptor",
+    "objetivo": "introduzir o teste de razão de Lowe",
+    "como": "BFMatcher(...).knnMatch(...,k=2)",
+    "importancia": "comparar os dois melhores candidatos permite rejeitar correspondências ambíguas",
+    "experimente": "Imprima as distâncias dos dois vizinhos"
+  },
+  {
+    "numero": 9,
+    "arquivo": "09_teste_razao_lowe.py",
+    "titulo": "Filtrar matches pelo teste de Lowe",
+    "objetivo": "remover correspondências pouco distintas",
+    "como": "aceitar m se m.distance < 0.75*n.distance",
+    "importancia": "filtragem melhora a qualidade dos pares usados pelo RANSAC",
+    "experimente": "Aumente a razão de 0.75 para 0.90"
+  },
+  {
+    "numero": 10,
+    "arquivo": "10_comparar_razoes.py",
+    "titulo": "Comparar limiares de Lowe",
+    "objetivo": "verificar quantos matches sobrevivem em diferentes razões",
+    "como": "testar limiares 0.60, 0.75 e 0.90",
+    "importancia": "excesso ou falta de correspondências prejudicam a estimação geométrica",
+    "experimente": "Discuta sensibilidade contra falsos matches"
+  },
+  {
+    "numero": 11,
+    "arquivo": "11_visualizar_matches.py",
+    "titulo": "Desenhar correspondências ORB",
+    "objetivo": "observar a ligação geométrica entre duas vistas",
+    "como": "cv2.drawMatches após Lowe",
+    "importancia": "verificar a coerência espacial das correspondências",
+    "experimente": "Compare linhas curtas e longas entre os quadros"
+  },
+  {
+    "numero": 12,
+    "arquivo": "12_distribuicao_matches.py",
+    "titulo": "Verificar cobertura espacial dos matches",
+    "objetivo": "identificar onde estão concentradas as features correspondentes",
+    "como": "pintar posições de pares aceitos sobre cada imagem",
+    "importancia": "matches restritos a uma região tornam a homografia menos robusta",
+    "experimente": "Veja se há matches nos cantos da região compartilhada"
+  },
+  {
+    "numero": 13,
+    "arquivo": "13_homografia_ransac.py",
+    "titulo": "Calcular a homografia com RANSAC",
+    "objetivo": "estimar uma matriz projetiva a partir de pontos correspondentes",
+    "como": "cv2.findHomography(src,dst,cv2.RANSAC,3.0)",
+    "importancia": "o RANSAC reduz a influência de pares incorretos",
+    "experimente": "Imprima a matriz H de 3 por 3"
+  },
+  {
+    "numero": 14,
+    "arquivo": "14_contar_inliers.py",
+    "titulo": "Contar inliers e outliers do RANSAC",
+    "objetivo": "medir a qualidade do consenso geométrico",
+    "como": "usar a máscara retornada por cv2.findHomography",
+    "importancia": "o número de inliers informa quanto do matching apoia a transformação",
+    "experimente": "Compare a taxa de inliers com e sem Lowe"
+  },
+  {
+    "numero": 15,
+    "arquivo": "15_erro_reprojecao.py",
+    "titulo": "Medir erro médio de reprojeção",
+    "objetivo": "quantificar o desvio entre pontos projetados e observados",
+    "como": "cv2.perspectiveTransform e distância euclidiana em pixels",
+    "importancia": "o erro médio dos inliers é métrica de alinhamento, não garante calibração 3D",
+    "experimente": "Compare média e mediana dos erros"
+  },
+  {
+    "numero": 16,
+    "arquivo": "16_limiar_ransac.py",
+    "titulo": "Comparar limiares de RANSAC",
+    "objetivo": "estudar o compromisso entre tolerância e precisão do consenso",
+    "como": "findHomography com 1.5, 3.0 e 6.0 pixels",
+    "importancia": "o limiar de reprojeção altera a máscara de inliers",
+    "experimente": "Observe os inliers e o erro de cada ajuste"
+  },
+  {
+    "numero": 17,
+    "arquivo": "17_projetar_cantos.py",
+    "titulo": "Projetar os cantos da segunda imagem",
+    "objetivo": "verificar a posição geométrica de uma vista sobre a outra",
+    "como": "cv2.perspectiveTransform nos quatro cantos",
+    "importancia": "a projeção permite determinar os limites do mosaico",
+    "experimente": "Compare a largura prevista com a cena original"
+  },
+  {
+    "numero": 18,
+    "arquivo": "18_warp_perspective.py",
+    "titulo": "Aplicar warpPerspective",
+    "objetivo": "transformar a segunda imagem para o referencial da primeira",
+    "como": "cv2.warpPerspective usando H estimada",
+    "importancia": "é a etapa central de alinhamento de câmeras por homografia",
+    "experimente": "Observe as bordas vazias da projeção"
+  },
+  {
+    "numero": 19,
+    "arquivo": "19_canvas_mosaico.py",
+    "titulo": "Determinar o canvas panorâmico",
+    "objetivo": "calcular o deslocamento global que preserva todas as vistas",
+    "como": "projetar cantos, calcular limites e compor matriz de translação",
+    "importancia": "sem esse ajuste parte da segunda imagem pode ficar cortada",
+    "experimente": "Imprima width,height e matriz de deslocamento"
+  },
+  {
+    "numero": 20,
+    "arquivo": "20_mosaico_sobreposicao.py",
+    "titulo": "Construir mosaico sem blending",
+    "objetivo": "colocar duas vistas alinhadas na mesma imagem",
+    "como": "warpPerspective na tela comum, copiando pixels sobrepostos",
+    "importancia": "mostra claramente emendas e a utilidade do alinhamento",
+    "experimente": "Identifique onde aparece a fronteira entre as vistas"
+  },
+  {
+    "numero": 21,
+    "arquivo": "21_mosaico_blending.py",
+    "titulo": "Fundir vistas por média ponderada",
+    "objetivo": "reduzir a descontinuidade na sobreposição",
+    "como": "máscaras de validade e média dos pixels compartilhados",
+    "importancia": "o blending melhora a apresentação mas não corrige um alinhamento geométrico incorreto",
+    "experimente": "Compare com o mosaico sem blending"
+  },
+  {
+    "numero": 22,
+    "arquivo": "22_mosaico_costura.py",
+    "titulo": "Destacar a região de sobreposição",
+    "objetivo": "visualizar a área comum e as emendas",
+    "como": "calcular interseção de máscaras das duas vistas",
+    "importancia": "permite diagnosticar pontos de costura e regiões repetidas",
+    "experimente": "Conte pixels válidos no overlap"
+  },
+  {
+    "numero": 23,
+    "arquivo": "23_homografia_inversa.py",
+    "titulo": "Projetar pontos de volta",
+    "objetivo": "comparar homografia direta e inversa",
+    "como": "cv2.invert e cv2.perspectiveTransform nos cantos",
+    "importancia": "consistência geométrica é útil em registro e calibração",
+    "experimente": "Meça o erro de ida e volta dos cantos"
+  },
+  {
+    "numero": 24,
+    "arquivo": "24_limite_homografia.py",
+    "titulo": "Discutir planicidade e paralaxe",
+    "objetivo": "identificar limitações de assumir uma única homografia",
+    "como": "demonstrar alinhamento parcial com objetos a diferentes profundidades",
+    "importancia": "surround view real exige calibração, correção de distorção e mapeamento ao solo",
+    "experimente": "Discuta por que um objeto alto pode aparecer duplicado"
+  },
+  {
+    "numero": 25,
+    "arquivo": "25_inspecionar_bev.py",
+    "titulo": "Inspecionar imagem BEV",
+    "objetivo": "introduzir a vista superior com faixas e ruído",
+    "como": "abrir BEV didática e imagem BEV da aula anterior",
+    "importancia": "o BEV facilita observar marcações aproximadamente verticais",
+    "experimente": "Troque o nome por dados/bev_tp1.png"
+  },
+  {
+    "numero": 26,
+    "arquivo": "26_threshold_adaptativo.py",
+    "titulo": "Limiarização adaptativa",
+    "objetivo": "criar máscara binária de marcações claras",
+    "como": "cv2.adaptiveThreshold sobre imagem de cinza",
+    "importancia": "o limiar local lida melhor com iluminação não uniforme",
+    "experimente": "Compare com threshold fixo"
+  },
+  {
+    "numero": 27,
+    "arquivo": "27_parametros_threshold.py",
+    "titulo": "Variar os parâmetros do threshold",
+    "objetivo": "comparar efeitos de blockSize e C",
+    "como": "testar blockSize 21/31/51 com C=-12",
+    "importancia": "a escolha do bloco controla o contexto usado no limiar",
+    "experimente": "Compare número de pixels claros"
+  },
+  {
+    "numero": 28,
+    "arquivo": "28_erosao.py",
+    "titulo": "Aplicar erosão",
+    "objetivo": "reduzir pequenas regiões brilhantes em uma máscara",
+    "como": "cv2.erode com kernel 3x3",
+    "importancia": "remove pixels da borda mas pode afinar ou eliminar marcações",
+    "experimente": "Compare antes e depois da erosão"
+  },
+  {
+    "numero": 29,
+    "arquivo": "29_dilatacao.py",
+    "titulo": "Aplicar dilatação",
+    "objetivo": "expandir regiões brilhantes da máscara",
+    "como": "cv2.dilate com kernel 3x3",
+    "importancia": "pode conectar interrupções, mas aproxima objetos vizinhos",
+    "experimente": "Observe o aumento da espessura"
+  },
+  {
+    "numero": 30,
+    "arquivo": "30_opening.py",
+    "titulo": "Abertura morfológica",
+    "objetivo": "remover ruído isolado",
+    "como": "cv2.morphologyEx(...,MORPH_OPEN,kernel)",
+    "importancia": "opening aplica erosão seguida por dilatação e remove pequenos artefatos",
+    "experimente": "Compare a quantidade de componentes antes e depois"
+  },
+  {
+    "numero": 31,
+    "arquivo": "31_closing.py",
+    "titulo": "Fechamento morfologico",
+    "objetivo": "preencher pequenas lacunas nas marcações",
+    "como": "cv2.morphologyEx(...,MORPH_CLOSE,kernel)",
+    "importancia": "closing aplica dilatação seguida por erosão, aproximando segmentos",
+    "experimente": "Teste kernel 3x7 e 5x11"
+  },
+  {
+    "numero": 32,
+    "arquivo": "32_kernel_retangular.py",
+    "titulo": "Kernel retangular",
+    "objetivo": "observar abertura e fechamento com vizinhança retangular",
+    "como": "cv2.getStructuringElement(MORPH_RECT,(5,7))",
+    "importancia": "formato do kernel controla as conexões espaciais preservadas",
+    "experimente": "Observe cantos e espessura das marcações"
+  },
+  {
+    "numero": 33,
+    "arquivo": "33_kernel_eliptico.py",
+    "titulo": "Kernel eliptico",
+    "objetivo": "comparar suavização morfológica de bordas",
+    "como": "cv2.getStructuringElement(MORPH_ELLIPSE,(5,7))",
+    "importancia": "estrutura arredondada responde diferentemente a pontas e quinas",
+    "experimente": "Compare com resultado do retângulo"
+  },
+  {
+    "numero": 34,
+    "arquivo": "34_kernel_cruz.py",
+    "titulo": "Kernel em cruz",
+    "objetivo": "avaliar conectividade predominantemente horizontal e vertical",
+    "como": "cv2.getStructuringElement(MORPH_CROSS,(5,7))",
+    "importancia": "a conectividade do kernel muda quais estruturas são preservadas",
+    "experimente": "Compare a abertura de marcas inclinadas"
+  },
+  {
+    "numero": 35,
+    "arquivo": "35_comparar_kernels.py",
+    "titulo": "Comparacao entre tres kernels",
+    "objetivo": "apresentar resultados sob os mesmos parâmetros de binarização",
+    "como": "processar com RECT, ELLIPSE e CROSS e montar painel",
+    "importancia": "a seleção depende da geometria dos objetos",
+    "experimente": "Identifique onde cada forma remove mais ruído"
+  },
+  {
+    "numero": 36,
+    "arquivo": "36_componentes_conectados.py",
+    "titulo": "Componentes conectados",
+    "objetivo": "rotular grupos de pixels contíguos",
+    "como": "cv2.connectedComponentsWithStats com conectividade 8",
+    "importancia": "permite transformar máscara em objetos com área e caixa",
+    "experimente": "Imprima os dez maiores componentes"
+  },
+  {
+    "numero": 37,
+    "arquivo": "37_filtrar_area.py",
+    "titulo": "Filtro por area",
+    "objetivo": "descartar componentes muito pequenos",
+    "como": "consultar stat CC_STAT_AREA e filtrar por mínimo",
+    "importancia": "filtragem retira resíduos sem dimensões compatíveis com marcações",
+    "experimente": "Altere área mínima 80 para 300"
+  },
+  {
+    "numero": 38,
+    "arquivo": "38_filtrar_aspect_ratio.py",
+    "titulo": "Filtro por aspect ratio",
+    "objetivo": "selecionar regiões alongadas aproximadamente verticais",
+    "como": "usar bounding box e razão h/w juntamente com área",
+    "importancia": "BEV deixa marcações longitudinais tipicamente alongadas",
+    "experimente": "Compare limites de razão 1.5 e 3.0"
+  },
+  {
+    "numero": 39,
+    "arquivo": "39_medir_marcacoes.py",
+    "titulo": "Quantidade e dimensoes medias",
+    "objetivo": "desenhar caixas e imprimir dimensão média dos objetos aprovados",
+    "como": "connectedComponentsWithStats com área e aspect ratio",
+    "importancia": "gera contagem objetiva e estatísticas para validação da segmentação",
+    "experimente": "Observe as medidas em pixels, sem assumir metros"
+  },
+  {
+    "numero": 40,
+    "arquivo": "40_pipeline_completo.py",
+    "titulo": "Pipeline completo e independente",
+    "objetivo": "reunir mosaico panorâmico e segmentação BEV em um programa autônomo",
+    "como": "ORB, Lowe, RANSAC, warpPerspective, threshold, opening, closing, kernels e componentes",
+    "importancia": "demonstra as etapas exigidas na atividade sem dependências entre scripts",
+    "experimente": "Troque bev_marcacoes por bev_tp1 e recalibre filtros"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "resolucao_largura_altura": [
+    1224,
+    370
+  ],
+  "shape": [
+    370,
+    1224,
+    3
+  ],
+  "dtype": "uint8",
+  "canais": 3,
+  "bytes_pixels": 1358640,
+  "elementos": 1358640,
+  "bytes_por_elemento": 1,
+  "bytes_arquivo": 893783
+}
