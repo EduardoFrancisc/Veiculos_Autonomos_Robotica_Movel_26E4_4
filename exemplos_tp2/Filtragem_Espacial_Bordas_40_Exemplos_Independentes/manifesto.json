@@ -1,0 +1,402 @@
+[
+  {
+    "slug": "01_inspecionar_imagem",
+    "title": "Leitura e organização dos pixels",
+    "what": "Abre uma fotografia real de pista e imprime altura, largura, canais e tipo de dado.",
+    "how": "Usa cv2.imread e shape; salva uma reprodução e um painel de conferência.",
+    "why": "Antes de filtrar bordas, precisamos conhecer a entrada do sensor e conferir sua integridade.",
+    "activity": "Troque pista_udacity.png por frontal_kitti.png.",
+    "run": "img=ler(\"pista_udacity.png\"); print(\"shape:\",img.shape,\"dtype:\",img.dtype,\"intensidades:\",int(img.min()),int(img.max())); mostrar([img],[\"Cena de trânsito real\"],colunas=1)",
+    "file": "01_inspecionar_imagem.py"
+  },
+  {
+    "slug": "02_cinza_e_cor",
+    "title": "Conversão BGR para escala de cinza",
+    "what": "Apresenta a imagem colorida e sua luminância aproximada.",
+    "how": "Aplica cv2.cvtColor(img,cv2.COLOR_BGR2GRAY) e compara os formatos.",
+    "why": "Filtros derivativos costumam operar em intensidade, reduzindo os canais a analisar.",
+    "activity": "Compare com a conversão de outro frame.",
+    "run": "img=ler(\"pista_udacity.png\"); gray=cinza(img);print(\"BGR:\",img.shape,\"cinza:\",gray.shape);mostrar([img,gray],[\"BGR\",\"Cinza\"],colunas=2)",
+    "file": "02_cinza_e_cor.py"
+  },
+  {
+    "slug": "03_ruido_gaussiano",
+    "title": "Simulação de ruído do sensor",
+    "what": "Adiciona ruído gaussiano controlado à cena para testar sensibilidade dos filtros.",
+    "how": "Gera números de média 0 e desvio-padrão 12, soma em float32 e limita a uint8.",
+    "why": "Ruído pode criar falsas bordas e elevar o custo de pós-processamento.",
+    "activity": "Teste desvio padrão 5 e 25.",
+    "run": "img=ler();rng=np.random.default_rng(42);ruidosa=np.clip(img.astype(np.float32)+rng.normal(0,12,img.shape),0,255).astype(np.uint8);print(\"Desvio do ruído:\",12);mostrar([img,ruidosa],[\"Referência\",\"Ruído gaussiano\"],colunas=2)",
+    "file": "03_ruido_gaussiano.py"
+  },
+  {
+    "slug": "04_sombra_controlada",
+    "title": "Simulação de sombra projetada",
+    "what": "Cria uma região com redução de brilho e demonstra seu efeito nas bordas.",
+    "how": "Desenha máscara poligonal e diminui as intensidades internas com ruído moderado.",
+    "why": "Sombras sobre as faixas podem introduzir bordas falsas e esconder a pintura.",
+    "activity": "Mude a intensidade de sombra de 0,38 para 0,60.",
+    "run": "img=ler();bad=sombra(img);mostrar([img,bad],[\"Referência\",\"Sombra artificial\"],colunas=2);print(\"Cenário controlado; não é captura real sob sombra.\")",
+    "file": "04_sombra_controlada.py"
+  },
+  {
+    "slug": "05_molhado_controlado",
+    "title": "Simulação visual de reflexos no asfalto",
+    "what": "Constrói uma perturbação didática com brilho especular, escurecimento e ruído.",
+    "how": "Combina elipses e faixas brilhantes em overlay e ruído de sensor.",
+    "why": "Reflexos podem gerar bordas intensas não pertencentes às faixas.",
+    "activity": "Compare as máscaras de bordas das duas cenas.",
+    "run": "img=ler();bad=molhado(img);mostrar([img,bad],[\"Referência\",\"Reflexos artificiais\"],colunas=2);print(\"Cenário sintético, não validação em asfalto molhado real.\")",
+    "file": "05_molhado_controlado.py"
+  },
+  {
+    "slug": "06_cenarios_lado_a_lado",
+    "title": "Conjunto de condições de iluminação",
+    "what": "Apresenta a mesma pista em referência, sombra e reflexos sintéticos.",
+    "how": "Usa as funções de perturbação, mantendo a geometria das faixas fixa.",
+    "why": "A comparação pareada permite analisar robustez sem confundir alteração de geometria com iluminação.",
+    "activity": "Observe quais transições apareceram somente nas versões degradadas.",
+    "run": "i=ler();mostrar([i,sombra(i),molhado(i)],[\"Normal\",\"Sombra\",\"Reflexos\"],colunas=3)",
+    "file": "06_cenarios_lado_a_lado.py"
+  },
+  {
+    "slug": "07_matriz_de_convolucao",
+    "title": "Entendimento de kernels de filtragem",
+    "what": "Imprime e desenha três matrizes 3×3: média, Sobel X e Sobel Y.",
+    "how": "Usa matrizes numpy para mostrar os pesos e sinais dos filtros.",
+    "why": "Uma CNN também utiliza kernels, mas aprende seus pesos a partir dos dados.",
+    "activity": "Explique por que a soma dos pesos do Sobel é zero.",
+    "run": "ks={\"Media\":np.ones((3,3))/9,\"Sobel X\":np.array([[-1,0,1],[-2,0,2],[-1,0,1]]),\"Sobel Y\":np.array([[-1,-2,-1],[0,0,0],[1,2,1]])};\nfor name,k in ks.items(): print(name,\"\\n\",k);\nfig,axes=plt.subplots(1,3,figsize=(12,4));\nfor ax,(nome,k) in zip(axes,ks.items()):ax.imshow(k,cmap=\"coolwarm\");ax.set_title(nome);[ax.text(j,i,f\"{k[i,j]:.2g}\",ha=\"center\",va=\"center\") for i in range(3) for j in range(3)];\nfig.savefig(RESULTADOS/\"kernels.png\",dpi=130);plt.close(fig)",
+    "file": "07_matriz_de_convolucao.py"
+  },
+  {
+    "slug": "08_media_manual",
+    "title": "Convolução espacial e média local",
+    "what": "Aplica uma média 3×3 a uma imagem com cv2.blur, observando o alisamento.",
+    "how": "Cada pixel é substituído pela média ponderada de seus vizinhos.",
+    "why": "A suavização reduz ruído, mas pode apagar bordas das faixas.",
+    "activity": "Experimente kernels de 3×3 e 9×9.",
+    "run": "g=ler(cinza=True);b=cv2.blur(g,(9,9));mostrar([g,b],[\"Original\",\"Filtro média 9×9\"],colunas=2)",
+    "file": "08_media_manual.py"
+  },
+  {
+    "slug": "09_gaussiano_pre_canny",
+    "title": "Filtro gaussiano antes das bordas",
+    "what": "Compara Canny com e sem suavização gaussiana da imagem.",
+    "how": "Aplica cv2.GaussianBlur e cv2.Canny com limiares iguais.",
+    "why": "A suavização reduz falsas bordas, mas pode enfraquecer detalhes finos.",
+    "activity": "Teste sigma 0,8 e 2,5.",
+    "run": "g=ler(cinza=True);b=cv2.GaussianBlur(g,(5,5),1.2);mostrar([g,cv2.Canny(g,60,140),cv2.Canny(b,60,140)],[\"Entrada\",\"Canny sem blur\",\"Canny com Gauss\"],colunas=3)",
+    "file": "09_gaussiano_pre_canny.py"
+  },
+  {
+    "slug": "10_sobel_x",
+    "title": "Sobel horizontal: derivada em X",
+    "what": "Destaca variações entre pixels à esquerda e à direita.",
+    "how": "Utiliza cv2.Sobel(dx=1,dy=0,ksize=3) e converte magnitude para visualização.",
+    "why": "Faixas verticais em BEV tendem a gerar bordas com derivada forte em X.",
+    "activity": "Observe como linhas horizontais respondem pouco nesse operador.",
+    "run": "g=ler(cinza=True);x=cv2.Sobel(g,cv2.CV_64F,1,0,ksize=3);mostrar([g,normalize8(x)],[\"BEV\",\"|Sobel X|\"],colunas=2)",
+    "file": "10_sobel_x.py"
+  },
+  {
+    "slug": "11_sobel_y",
+    "title": "Sobel vertical: derivada em Y",
+    "what": "Destaca variações entre linhas acima e abaixo de cada pixel.",
+    "how": "Utiliza cv2.Sobel(dx=0,dy=1) e visualiza os valores absolutos.",
+    "why": "O gradiente Y favorece bordas horizontais e complementa o Sobel X.",
+    "activity": "Compare resposta em traços de faixa e nas bordas de obstáculos.",
+    "run": "g=ler(cinza=True);y=cv2.Sobel(g,cv2.CV_64F,0,1,ksize=3);mostrar([g,normalize8(y)],[\"BEV\",\"|Sobel Y|\"],colunas=2)",
+    "file": "11_sobel_y.py"
+  },
+  {
+    "slug": "12_sobel_magnitude",
+    "title": "Magnitude combinada do Sobel",
+    "what": "Integra Sobel X e Y para detectar bordas independentemente de direção.",
+    "how": "Calcula sqrt(Gx²+Gy²) e binariza por limiar fixo.",
+    "why": "A magnitude é mais generalista, mas também detecta reflexos e sombras.",
+    "activity": "Altere o threshold de 95 para 60 e 150.",
+    "run": "g=ler(cinza=True);gx=cv2.Sobel(g,cv2.CV_64F,1,0);gy=cv2.Sobel(g,cv2.CV_64F,0,1);mag=np.hypot(gx,gy);mask=np.uint8(mag>=95)*255;print(\"Pixels ativados:\",np.count_nonzero(mask));mostrar([normalize8(gx),normalize8(gy),mask],[\"Gx\",\"Gy\",\"Magnitude limiarizada\"],colunas=3)",
+    "file": "12_sobel_magnitude.py"
+  },
+  {
+    "slug": "13_orientacao_gradiente",
+    "title": "Ângulo de orientação do gradiente",
+    "what": "Calcula o ângulo arctan2(Gy,Gx), separando orientação de força da borda.",
+    "how": "Converte ângulos de -180 a 180 graus em uma visualização.",
+    "why": "Ajuda a selecionar bordas geometricamente compatíveis com marcações de pista.",
+    "activity": "Discuta a diferença entre orientação da borda e orientação da derivada.",
+    "run": "g=ler(cinza=True);gx=cv2.Sobel(g,cv2.CV_64F,1,0);gy=cv2.Sobel(g,cv2.CV_64F,0,1);ang=np.arctan2(gy,gx);vis=np.uint8((ang+np.pi)/(2*np.pi)*255);mostrar([g,vis],[\"BEV\",\"Ângulo do gradiente (-180 a 180)\"],colunas=2);print(\"Ângulo: direção NORMAL à borda\")",
+    "file": "13_orientacao_gradiente.py"
+  },
+  {
+    "slug": "14_sobel_manual_numpy",
+    "title": "Convolução Sobel 3×3 escrita à mão",
+    "what": "Calcula manualmente o Sobel X por convolução discreta bidimensional.",
+    "how": "Usa np.pad reflect, duas iterações sobre coordenadas e kernel matemático invertido.",
+    "why": "Mostra o mesmo princípio das camadas Conv2D em CNNs, com pesos fixos.",
+    "activity": "Faça manualmente o cálculo em uma janela 3×3.",
+    "run": "g=cv2.resize(ler(cinza=True),(128,128)); k_sobel=np.array([[-1,0,1],[-2,0,2],[-1,0,1]],np.float64)\n# Convolução matemática usa o kernel invertido; cv2.Sobel usa resposta equivalente à CORRELAÇÃO com k_sobel.\nk_matematico=np.flip(k_sobel,(0,1)); pad=np.pad(g.astype(np.float64),((1,1),(1,1)),mode=\"reflect\"); out=np.zeros(g.shape,np.float64)\nfor yy in range(g.shape[0]):\n    for xx in range(g.shape[1]):\n        out[yy,xx]=np.sum(pad[yy:yy+3,xx:xx+3]*np.flip(k_matematico,(0,1)))\nref=cv2.Sobel(g,cv2.CV_64F,1,0,ksize=3,borderType=cv2.BORDER_REFLECT_101)\nprint(\"Erro absoluto máximo por pixel:\",np.max(np.abs(out-ref)));mostrar([g,normalize8(out),normalize8(ref)],[\"BEV reduzido\",\"Manual (NumPy)\",\"OpenCV Sobel\"],colunas=3)",
+    "file": "14_sobel_manual_numpy.py"
+  },
+  {
+    "slug": "15_validacao_pixel_a_pixel",
+    "title": "Teste de igualdade entre Sobel manual e OpenCV",
+    "what": "Mede erro máximo, erro médio e número de pixels diferentes das duas implementações.",
+    "how": "Calcula a mesma operação em float64 e compara cada posição com np.allclose.",
+    "why": "A validação garante que o algoritmo implementado manualmente reproduz o operador de referência.",
+    "activity": "Troque o padding e descubra onde aparecem discrepâncias.",
+    "run": "g=cv2.resize(ler(cinza=True),(120,120));k=np.array([[-1,0,1],[-2,0,2],[-1,0,1]],np.float64);p=np.pad(g.astype(np.float64),1,mode=\"reflect\");man=np.empty(g.shape,np.float64)\nfor y in range(g.shape[0]):\n for x in range(g.shape[1]):man[y,x]=np.sum(p[y:y+3,x:x+3]*k)\nref=cv2.Sobel(g,cv2.CV_64F,1,0,ksize=3,borderType=cv2.BORDER_REFLECT_101)\ndif=np.abs(man-ref);print(\"MAX:\",dif.max(),\"MAE:\",dif.mean(),\"pixels divergentes:\",np.count_nonzero(dif>1e-9));assert np.allclose(man,ref,atol=1e-9);mostrar([normalize8(man),normalize8(ref),normalize8(dif)],[\"NumPy\",\"cv2.Sobel\",\"Diferença absoluta\"],colunas=3)",
+    "file": "15_validacao_pixel_a_pixel.py"
+  },
+  {
+    "slug": "16_bordas_bgr_vs_cinza",
+    "title": "Contraste de cor e gradientes",
+    "what": "Compara a magnitude do Sobel em uma imagem cinza e nos três canais BGR.",
+    "how": "Faz uma convolução por canal e agrega pela magnitude máxima.",
+    "why": "Transições cromáticas podem ser fracas em tons de cinza e fortes em canais individuais.",
+    "activity": "Identifique uma transição na pintura amarela da estrada.",
+    "run": "img=ler();g=cinza(img);mg=np.hypot(cv2.Sobel(g,cv2.CV_64F,1,0),cv2.Sobel(g,cv2.CV_64F,0,1));m=[];\nfor ch in cv2.split(img):m.append(np.hypot(cv2.Sobel(ch,cv2.CV_64F,1,0),cv2.Sobel(ch,cv2.CV_64F,0,1)));\ncomb=np.max(np.stack(m),axis=0);mostrar([img,normalize8(mg),normalize8(comb)],[\"BGR\",\"Sobel cinza\",\"Sobel por canais\"],colunas=3)",
+    "file": "16_bordas_bgr_vs_cinza.py"
+  },
+  {
+    "slug": "17_laplaciano",
+    "title": "Derivada espacial de segunda ordem",
+    "what": "Calcula o Laplaciano da imagem, sensível a variações abruptas de intensidade.",
+    "how": "cv2.Laplacian produz resposta assinada, mostrada em módulo.",
+    "why": "Operadores de segunda derivada são sensíveis a ruído e motivam o pré-filtro Gaussiano do LoG.",
+    "activity": "Compare o Laplaciano de imagem com e sem blur.",
+    "run": "g=ler(cinza=True);l=cv2.Laplacian(g,cv2.CV_64F,ksize=3);mostrar([g,normalize8(l)],[\"BEV\",\"|Laplaciano|\"],colunas=2)",
+    "file": "17_laplaciano.py"
+  },
+  {
+    "slug": "18_log_completo",
+    "title": "Laplaciano do Gaussiano (LoG)",
+    "what": "Executa uma suavização gaussiana seguida de Laplaciano.",
+    "how": "Usa GaussianBlur (5×5, sigma 1,2), Laplacian e threshold 35 no módulo.",
+    "why": "O filtro combina redução de ruído e detecção de mudanças rápidas de intensidade.",
+    "activity": "Discuta zerocrossing como alternativa à limiarização de |LoG|.",
+    "run": "g=ler(cinza=True);blur=cv2.GaussianBlur(g,(5,5),1.2);l=cv2.Laplacian(blur,cv2.CV_64F,ksize=3);binary=np.uint8(np.abs(l)>=35)*255;print(\"Ativos:\",np.count_nonzero(binary));mostrar([g,blur,normalize8(l),binary],[\"Entrada\",\"Gauss\",\"|LoG|\",\"LoG limiarizado\"],colunas=2)",
+    "file": "18_log_completo.py"
+  },
+  {
+    "slug": "19_log_escalas",
+    "title": "Sensibilidade do LoG ao sigma",
+    "what": "Testa três níveis de suavização antes da segunda derivada.",
+    "how": "Aplica sigma 0,8, 1,5 e 2,5, mantendo a janela e o limiar.",
+    "why": "Mostra o trade-off entre ruído e preservação das marcações finas.",
+    "activity": "Explique quais detalhes somem com sigma elevado.",
+    "run": "g=ler(cinza=True);ims=[];names=[];\nfor sigma in [.8,1.5,2.5]: l=cv2.Laplacian(cv2.GaussianBlur(g,(0,0),sigma),cv2.CV_64F,ksize=3);m=np.uint8(np.abs(l)>=35)*255;ims.append(m);names.append(f\"LoG sigma {sigma} | pixels {np.count_nonzero(m)}\");\nmostrar(ims,names,colunas=3)",
+    "file": "19_log_escalas.py"
+  },
+  {
+    "slug": "20_dog_completo",
+    "title": "Diferença de Gaussianas (DoG)",
+    "what": "Subtrai duas versões da imagem suavizadas com sigmas diferentes.",
+    "how": "Calcula |Gaussian(sigma=1)-Gaussian(sigma=2,2)| e aplica limiar.",
+    "why": "DoG é uma aproximação relacionada ao LoG e é útil para responder a detalhes de certa escala.",
+    "activity": "Altere os dois sigmas e compare a resposta.",
+    "run": "g=ler(cinza=True);g1=cv2.GaussianBlur(g,(0,0),1.0);g2=cv2.GaussianBlur(g,(0,0),2.2);dif=np.abs(g1.astype(np.float32)-g2.astype(np.float32));bin=np.uint8(dif>=7.5)*255;print(\"Ativos:\",np.count_nonzero(bin));mostrar([g1,g2,normalize8(dif),bin],[\"Gauss 1\",\"Gauss 2\",\"|DoG|\",\"DoG binarizado\"],colunas=2)",
+    "file": "20_dog_completo.py"
+  },
+  {
+    "slug": "21_dog_multi_escala",
+    "title": "Banco de diferenças de Gaussianas",
+    "what": "Compara DoG em diferentes escalas espaciais para destacar estruturas de tamanho variado.",
+    "how": "Produz diferenças com pares de sigmas 0,8/1,6, 1,2/2,4 e 2/4.",
+    "why": "Explora seleção de escala e sensibilidade a marcações largas ou estreitas.",
+    "activity": "Escolha par de sigmas de maior resposta em faixa pontilhada.",
+    "run": "g=ler(cinza=True);ims=[];tit=[];\nfor a,b in [(.8,1.6),(1.2,2.4),(2,4)]:d=np.abs(cv2.GaussianBlur(g,(0,0),a).astype(float)-cv2.GaussianBlur(g,(0,0),b).astype(float));ims.append(normalize8(d));tit.append(f\"DoG {a}/{b}\");\nmostrar(ims,tit,colunas=3)",
+    "file": "21_dog_multi_escala.py"
+  },
+  {
+    "slug": "22_canny_limiares_baixos",
+    "title": "Canny com limiares 50 e 110",
+    "what": "Usa Canny mais sensível para detectar bordas fracas na pista.",
+    "how": "Canny inclui gradientes, supressão de não máximos e histerese.",
+    "why": "Detectar mais bordas pode aumentar recall, mas também gera falsos positivos.",
+    "activity": "Conte os pixels ativados e compare com o exemplo seguinte.",
+    "run": "g=ler(cinza=True);e=cv2.Canny(g,50,110);print(\"Ativos:\",np.count_nonzero(e));mostrar([g,e],[\"BEV\",\"Canny 50/110\"],colunas=2)",
+    "file": "22_canny_limiares_baixos.py"
+  },
+  {
+    "slug": "23_canny_limiares_altos",
+    "title": "Canny com limiares 100 e 200",
+    "what": "Utiliza Canny com thresholds mais restritivos.",
+    "how": "Repete a operação do exemplo 22 alterando apenas os dois thresholds.",
+    "why": "Permite discutir sensibilidade e robustez à detecção de marcas menos contrastadas.",
+    "activity": "Experimente faixa escurecida por sombra artificial.",
+    "run": "g=ler(cinza=True);e=cv2.Canny(g,100,200);print(\"Ativos:\",np.count_nonzero(e));mostrar([g,e],[\"BEV\",\"Canny 100/200\"],colunas=2)",
+    "file": "23_canny_limiares_altos.py"
+  },
+  {
+    "slug": "24_canny_grade",
+    "title": "Comparação de três pares de thresholds",
+    "what": "Monta um painel com configurações fraca, intermediária e restritiva.",
+    "how": "Aplica Canny com 30/80, 50/110 e 100/200.",
+    "why": "Mostra que thresholding altera fortemente as métricas de pixels ativos.",
+    "activity": "Selecione o par que melhor preserva faixas com poucos artefatos.",
+    "run": "g=ler(cinza=True);a=[];t=[];\nfor low,high in [(30,80),(50,110),(100,200)]:m=cv2.Canny(g,low,high);a.append(m);t.append(f\"{low}/{high} | {np.count_nonzero(m)} pixels\");\nmostrar(a,t,colunas=3)",
+    "file": "24_canny_grade.py"
+  },
+  {
+    "slug": "25_comparar_todos_operadores",
+    "title": "Comparação de quatro operadores e dois Cannys",
+    "what": "Reúne Sobel, LoG, Canny com dois ajustes e DoG no mesmo painel.",
+    "how": "Binariza respostas de modo explícito e imprime contagem de pixels ativados.",
+    "why": "Permite comparação visual com os parâmetros controlados.",
+    "activity": "Analise por que quantidade de bordas não equivale a qualidade.",
+    "run": "i=ler();o=operadores(i);pan=[i];nam=[\"Cena original\"];\nfor k,(v,_) in o.items():pan.append(v);nam.append(f\"{k} ({np.count_nonzero(v)} px)\");\nmostrar(pan,nam,colunas=3);[print(k,\"pixels:\",np.count_nonzero(v)) for k,(v,_) in o.items()]",
+    "file": "25_comparar_todos_operadores.py"
+  },
+  {
+    "slug": "26_comparar_sombra",
+    "title": "Operadores em condição de sombra sintética",
+    "what": "Executa os mesmos operadores sobre a imagem degradada por sombra.",
+    "how": "Conserva parâmetros fixos para comparar a sensibilidade da filtragem.",
+    "why": "A sombra pode enfraquecer bordas verdadeiras e acrescentar limite artificial.",
+    "activity": "Compare as contagens com a imagem de referência.",
+    "run": "i=sombra(ler());o=operadores(i);mostrar([i]+[v for v,_ in o.values()],[\"Sombra\"]+list(o),colunas=3);[print(k,np.count_nonzero(v)) for k,(v,_) in o.items()]",
+    "file": "26_comparar_sombra.py"
+  },
+  {
+    "slug": "27_comparar_molhado",
+    "title": "Operadores sob reflexos sintéticos",
+    "what": "Compara os quatro operadores na cena artificial com reflexos e ruído.",
+    "how": "Executa pipeline idêntico ao aplicado no cenário de referência.",
+    "why": "Reflexos podem dominar o mapa de bordas e afetar localização de faixas.",
+    "activity": "Descreva quais artefatos foram destacados por cada operador.",
+    "run": "i=molhado(ler());o=operadores(i);mostrar([i]+[v for v,_ in o.values()],[\"Reflexos\"]+list(o),colunas=3);[print(k,np.count_nonzero(v)) for k,(v,_) in o.items()]",
+    "file": "27_comparar_molhado.py"
+  },
+  {
+    "slug": "28_tempos_operadores",
+    "title": "Benchmark de tempo por operador",
+    "what": "Mede o custo de Sobel, LoG, Canny 2× e DoG em milissegundos.",
+    "how": "Faz aquecimento e mede repetidamente com perf_counter, relatando mediana.",
+    "why": "Em processamento embarcado importa o tempo necessário por frame.",
+    "activity": "Compare CPU Colab e notebook local, sem afirmar equivalência de hardware.",
+    "run": "i=ler();g=cinza(i)\nfuncs={\"Sobel\":lambda:np.hypot(cv2.Sobel(g,cv2.CV_64F,1,0),cv2.Sobel(g,cv2.CV_64F,0,1)),\"LoG\":lambda:cv2.Laplacian(cv2.GaussianBlur(g,(5,5),1.2),cv2.CV_64F),\"Canny 50/110\":lambda:cv2.Canny(g,50,110),\"Canny 100/200\":lambda:cv2.Canny(g,100,200),\"DoG\":lambda:cv2.absdiff(cv2.GaussianBlur(g,(0,0),1.0),cv2.GaussianBlur(g,(0,0),2.2))}\nrows=[]\nfor name,fn in funcs.items():\n for j in range(3):fn()\n timings=[]\n for j in range(15):\n  t=time.perf_counter();fn();timings.append((time.perf_counter()-t)*1000)\n rows.append(dict(operador=name,mediana_ms=round(float(np.median(timings)),3),p95_ms=round(float(np.percentile(timings,95)),3)))\ntabela(rows,[\"operador\",\"mediana_ms\",\"p95_ms\"])\nfig,ax=plt.subplots(figsize=(8,4));ax.bar([r[\"operador\"] for r in rows],[r[\"mediana_ms\"] for r in rows]);ax.set_ylabel(\"Mediana (ms)\");ax.tick_params(axis=\"x\",rotation=22);fig.tight_layout();fig.savefig(RESULTADOS/\"benchmark.png\",dpi=140);plt.close(fig)",
+    "file": "28_tempos_operadores.py"
+  },
+  {
+    "slug": "29_roi_pista",
+    "title": "Região de interesse para percepção veicular",
+    "what": "Limita a detecção a uma região trapezoidal de estrada.",
+    "how": "Desenha polígono e aplica bitwise_and antes do Canny.",
+    "why": "Reduz bordas em céu, prédios ou vegetação, mas pode excluir objetos relevantes se mal calibrada.",
+    "activity": "Ajuste o trapézio para outra câmera frontal.",
+    "run": "i=ler(\"pista_udacity.png\");h,w=i.shape[:2];p=np.array([[int(w*.1),h-1],[int(w*.45),int(h*.5)],[int(w*.56),int(h*.5)],[int(w*.95),h-1]]);m=np.zeros((h,w),np.uint8);cv2.fillConvexPoly(m,p,255);roi=cv2.bitwise_and(i,i,mask=m);e=cv2.Canny(cinza(roi),60,140);mostrar([i,roi,e],[\"Câmera real\",\"ROI da pista\",\"Canny na ROI\"],colunas=3)",
+    "file": "29_roi_pista.py"
+  },
+  {
+    "slug": "30_perspectiva_para_bev",
+    "title": "Visão de cima (BEV) com homografia",
+    "what": "Aplica uma homografia para corrigir a perspectiva da pista sintética.",
+    "how": "Usa matriz inversa do arquivo de dados e cv2.warpPerspective.",
+    "why": "Em BEV, marcações longitudinais ficam aproximadamente verticais, facilitando filtros direcionais.",
+    "activity": "Discuta necessidade de calibração ao migrar para câmera real.",
+    "run": "img=ler(\"pista_perspectiva.png\");mt=np.load(DADOS/\"perspectiva_matriz.npz\")[\"M_inv\"];out=cv2.warpPerspective(img,mt,(640,400));mostrar([img,out],[\"Perspectiva frontal\",\"Visão superior BEV\"],colunas=2);print(\"Matriz 3x3:\",mt)",
+    "file": "30_perspectiva_para_bev.py"
+  },
+  {
+    "slug": "31_banco_kernel_angular",
+    "title": "Construção matemática de filtros direcionais",
+    "what": "Gera kernels para 0°, 45°, 90° e 135°.",
+    "how": "Calcula cos(theta)*Kx + sin(theta)*Ky usando os Sobel básicos.",
+    "why": "Os kernels selecionam orientação de gradiente; base do banco direcional e da conexão com CNNs.",
+    "activity": "Calcule manualmente os coeficientes do filtro 45°.",
+    "run": "kx=np.array([[-1,0,1],[-2,0,2],[-1,0,1]],float);ky=kx.T;\nfor angle in (0,45,90,135):print(\"Ângulo\",angle,\"\\n\",np.round(kx*np.cos(np.deg2rad(angle))+ky*np.sin(np.deg2rad(angle)),3))",
+    "file": "31_banco_kernel_angular.py"
+  },
+  {
+    "slug": "32_gradiente_0_graus",
+    "title": "Filtro direcional de 0 grau",
+    "what": "Mostra a resposta do filtro horizontal de gradiente sobre o BEV.",
+    "how": "Projeta Gx e Gy na direção 0° e toma o valor absoluto.",
+    "why": "Para faixas quase verticais, normais aproximadamente horizontais tendem a produzir resposta alta.",
+    "activity": "Compare com o filtro 90°.",
+    "run": "g=ler(cinza=True);r=banco_direcional(g)[0];mostrar([g,normalize8(r)],[\"BEV\",\"Gradiente 0°\"],colunas=2)",
+    "file": "32_gradiente_0_graus.py"
+  },
+  {
+    "slug": "33_gradiente_45_graus",
+    "title": "Filtro direcional de 45 graus",
+    "what": "Mostra resposta ao gradiente inclinado e discute bordas diagonais.",
+    "how": "Combina Sobel X e Y com pesos trigonométricos iguais.",
+    "why": "Ajuda a modelar inclinações na pista e transições diagonais.",
+    "activity": "Gire a imagem e observe a resposta.",
+    "run": "g=ler(cinza=True);r=banco_direcional(g)[45];mostrar([g,normalize8(r)],[\"BEV\",\"Gradiente 45°\"],colunas=2)",
+    "file": "33_gradiente_45_graus.py"
+  },
+  {
+    "slug": "34_gradiente_90_graus",
+    "title": "Filtro direcional de 90 graus",
+    "what": "Mostra resposta a mudanças verticais da imagem, como bordas horizontais.",
+    "how": "Equivale essencialmente ao Sobel Y em valor absoluto.",
+    "why": "Distingue resposta à orientação da borda e à orientação do próprio gradiente.",
+    "activity": "Compare com as bordas superiores e inferiores das faixas tracejadas.",
+    "run": "g=ler(cinza=True);r=banco_direcional(g)[90];mostrar([g,normalize8(r)],[\"BEV\",\"Gradiente 90°\"],colunas=2)",
+    "file": "34_gradiente_90_graus.py"
+  },
+  {
+    "slug": "35_gradiente_135_graus",
+    "title": "Filtro direcional de 135 graus",
+    "what": "Analisa bordas diagonais com orientação normal de 135°.",
+    "how": "Combina derivadas X e Y com fatores sen/cos de 135°.",
+    "why": "Completa as quatro orientações de um banco de filtros direcional.",
+    "activity": "Rotacione BEV em 30° e analise qual filtro responde mais.",
+    "run": "g=ler(cinza=True);r=banco_direcional(g)[135];mostrar([g,normalize8(r)],[\"BEV\",\"Gradiente 135°\"],colunas=2)",
+    "file": "35_gradiente_135_graus.py"
+  },
+  {
+    "slug": "36_banco_quatro_direcoes",
+    "title": "Banco de filtros direcionais completo",
+    "what": "Exibe lado a lado as quatro respostas de orientação de gradiente.",
+    "how": "Aplica quatro kernels orientados sobre a mesma imagem BEV.",
+    "why": "É uma analogia direta aos mapas de características produzidos por Conv2D.",
+    "activity": "Identifique a orientação que responde às bordas das faixas verticais.",
+    "run": "i=ler();r=banco_direcional(i);mostrar([i]+[normalize8(v) for v in r.values()],[\"BEV\"]+[f\"{k}° (gradiente)\" for k in r],colunas=3)",
+    "file": "36_banco_quatro_direcoes.py"
+  },
+  {
+    "slug": "37_angulos_resposta_faixas",
+    "title": "Qual orientação maximiza nas marcações?",
+    "what": "Avalia a intensidade média dos quatro filtros apenas nas bordas das marcações.",
+    "how": "Usa o GT da cena sintética como ROI para evitar que fundo e reflexo dominem o cálculo.",
+    "why": "Distingue a resposta sobre a faixa da resposta global na imagem.",
+    "activity": "Compare a orientação normal à faixa com a orientação longitudinal.",
+    "run": "i=ler();gt=ler(\"bordas_gt.png\",cinza=True)>0;r=banco_direcional(i);rows=[]\nfor k,v in r.items():rows.append(dict(angulo=k,resposta_media=round(float(v[gt].mean()),3),resposta_fundo=round(float(v[~gt].mean()),3)))\ntabela(rows,[\"angulo\",\"resposta_media\",\"resposta_fundo\"])\nbest=max(rows,key=lambda x:x[\"resposta_media\"]);print(\"Ângulo de gradiente com maior média na borda de faixa:\",best[\"angulo\"]);mostrar([normalize8(x) for x in r.values()],[f\"Gradiente {k}°\" for k in r],colunas=2)",
+    "file": "37_angulos_resposta_faixas.py"
+  },
+  {
+    "slug": "38_resposta_direcional_sombra",
+    "title": "Frequências direcionais sob sombra e reflexos",
+    "what": "Compara a resposta dos quatro filtros sobre as mesmas bordas verdadeiras em três condições.",
+    "how": "Mantém as máscaras de referência e varia somente a aparência da cena.",
+    "why": "Permite investigar quais orientações permanecem mais detectáveis sob perturbação controlada.",
+    "activity": "Justifique por que a maior resposta nem sempre significa menos falsos positivos.",
+    "run": "ref=ler();gt=ler(\"bordas_gt.png\",cinza=True)>0;rows=[]\nfor nome,im in [(\"normal\",ref),(\"sombra\",sombra(ref)),(\"reflexos\",molhado(ref))]:\n r=banco_direcional(im)\n for ang,v in r.items():rows.append(dict(cenario=nome,angulo=ang,resposta_media=round(float(v[gt].mean()),2)))\ntabela(rows,[\"cenario\",\"angulo\",\"resposta_media\"])\nmostrar([ref,sombra(ref),molhado(ref)],[\"Normal\",\"Sombra\",\"Reflexos\"],colunas=3)",
+    "file": "38_resposta_direcional_sombra.py"
+  },
+  {
+    "slug": "39_convolucao_e_cnn",
+    "title": "Filtros fixos versus kernels aprendidos em CNNs",
+    "what": "Aplica quatro mapas de características e constrói um tensor H×W×4.",
+    "how": "Usa as saídas do banco de filtros como canais, como ocorre nas camadas convolucionais.",
+    "why": "Na CNN os coeficientes dos kernels são treináveis; no Sobel são definidos pelo engenheiro.",
+    "activity": "Compare saída H×W×4 com o formato da camada Conv2D do TensorFlow.",
+    "run": "g=ler(cinza=True);r=banco_direcional(g);features=np.stack([r[k] for k in (0,45,90,135)],axis=-1).astype(np.float32);print(\"Entrada H×W×1\",g.shape+(1,));print(\"Saída H×W×4\",features.shape);np.save(RESULTADOS/\"mapas_direcionais.npy\",features);mostrar([normalize8(r[k]) for k in (0,45,90,135)],[f\"Feature map {k}°\" for k in (0,45,90,135)],colunas=2)",
+    "file": "39_convolucao_e_cnn.py"
+  },
+  {
+    "slug": "40_pipeline_completo",
+    "title": "Pipeline final: operadores, cenários, tempo, F1 e ângulos",
+    "what": "Integra Sobel, LoG, duas configurações Canny e DoG e mede desempenho nas três condições.",
+    "how": "Calcula pixels ativados, tempo mediano, precisão/recall/F1 tolerantes a 2 pixels e respostas direcionais.",
+    "why": "Permite justificar uma decisão experimental limitada ao dataset controlado sem afirmar superioridade universal.",
+    "activity": "Repita em imagens reais anotadas antes de recomendar aplicação veicular.",
+    "run": "gt=ler(\"bordas_gt.png\",cinza=True);ref=ler();rows=[];paineis=[];tit=[]\nfor nome,i in [(\"normal\",ref),(\"sombra\",sombra(ref)),(\"reflexos\",molhado(ref))]:\n op=operadores(i);paineis.append(i);tit.append(nome)\n for operador,(edge,_) in op.items():\n  # Cronometria inclui o cálculo integral do conjunto como custo aproximado por operador isolado? NÃO.\n  # Reexecuta função equivalente individual para medir etapa corretamente.\n  g=cinza(i)\n  fns={\"Sobel\":lambda:np.hypot(cv2.Sobel(g,cv2.CV_64F,1,0),cv2.Sobel(g,cv2.CV_64F,0,1)),\"LoG\":lambda:cv2.Laplacian(cv2.GaussianBlur(g,(5,5),1.2),cv2.CV_64F),\"Canny 50/110\":lambda:cv2.Canny(g,50,110),\"Canny 100/200\":lambda:cv2.Canny(g,100,200),\"DoG\":lambda:cv2.absdiff(cv2.GaussianBlur(g,(0,0),1.0),cv2.GaussianBlur(g,(0,0),2.2))}\n  fn=fns[operador];fn();tempos=[]\n  for _ in range(6):t=time.perf_counter();fn();tempos.append((time.perf_counter()-t)*1000)\n  pr,re,f1=avaliacao(edge,gt,tolerancia=2)\n  rows.append(dict(cenario=nome,operador=operador,pixels_ativos=int(np.count_nonzero(edge)),mediana_ms=round(float(np.median(tempos)),3),precisao=round(pr,3),recall=round(re,3),f1=round(f1,3)))\n  paineis.append(edge);tit.append(operador)\ntabela(rows,[\"cenario\",\"operador\",\"pixels_ativos\",\"mediana_ms\",\"precisao\",\"recall\",\"f1\"])\nmostrar(paineis,tit,\"comparacao_3_cenarios.png\",colunas=6)\n# Critério explícito de melhor resultado neste experimento: F1 no cenário degradado.\nfor c in (\"sombra\",\"reflexos\"):\n x=max((r for r in rows if r[\"cenario\"]==c),key=lambda r:r[\"f1\"])\n print(f\"MELHOR F1 em {c}: {x['operador']} (F1={x['f1']})\")\nr=banco_direcional(ref);g=ler(\"bordas_gt.png\",cinza=True)>0\nangles={k:round(float(v[g].mean()),3) for k,v in r.items()}\nprint(\"Resposta direcional média nas bordas da faixa:\",angles)\nprint(\"Ângulo de maior resposta:\",max(angles,key=angles.get))\nwith open(RESULTADOS/\"conclusao.txt\",\"w\",encoding=\"utf8\") as f:\n for c in (\"sombra\",\"reflexos\"):\n  x=max((r for r in rows if r[\"cenario\"]==c),key=lambda r:r[\"f1\"])\n  f.write(f\"Cenário sintético {c}: maior F1 = {x['operador']} ({x['f1']}); não é recomendação universal.\\n\")\n f.write(f\"Direção de GRADIENTE mais forte nas bordas de faixa: {max(angles,key=angles.get)} graus.\\n\")\n f.write(\"A comparação exige imagens reais anotadas, múltiplas cenas, mesma ROI, métricas de qualidade e perfil de latência.\\n\")\n",
+    "file": "40_pipeline_completo.py"
+  }
+]

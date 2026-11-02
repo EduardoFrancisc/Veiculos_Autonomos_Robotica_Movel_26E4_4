@@ -1,0 +1,4 @@
+Cenário sintético sombra: maior F1 = LoG (0.778); não é recomendação universal.
+Cenário sintético reflexos: maior F1 = LoG (0.876); não é recomendação universal.
+Direção de GRADIENTE mais forte nas bordas de faixa: 0 graus.
+A comparação exige imagens reais anotadas, múltiplas cenas, mesma ROI, métricas de qualidade e perfil de latência.
