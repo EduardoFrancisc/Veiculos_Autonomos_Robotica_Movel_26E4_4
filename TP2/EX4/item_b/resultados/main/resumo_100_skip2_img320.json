@@ -1,0 +1,12 @@
+{
+  "prefix": "skip2_img320",
+  "steps": 100,
+  "yolo": true,
+  "skip": 2,
+  "imgsz": 320,
+  "fps_efetivo": 10.721881899564504,
+  "latencia_media_ms": 93.26720900000001,
+  "p95_ms": 110.23049999999999,
+  "updates_yolo": 50,
+  "objetos_totais": 10
+}

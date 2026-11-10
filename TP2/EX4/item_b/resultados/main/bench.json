@@ -1,0 +1,38 @@
+[
+  {
+    "prefix": "skip2_img640",
+    "steps": 100,
+    "yolo": true,
+    "skip": 2,
+    "imgsz": 640,
+    "fps_efetivo": 9.923592210182557,
+    "latencia_media_ms": 100.76996100000001,
+    "p95_ms": 114.487685,
+    "updates_yolo": 50,
+    "objetos_totais": 80
+  },
+  {
+    "prefix": "skip1_img320",
+    "steps": 100,
+    "yolo": true,
+    "skip": 1,
+    "imgsz": 320,
+    "fps_efetivo": 9.652545337112587,
+    "latencia_media_ms": 103.599617,
+    "p95_ms": 126.49230499999999,
+    "updates_yolo": 100,
+    "objetos_totais": 11
+  },
+  {
+    "prefix": "skip2_img320",
+    "steps": 100,
+    "yolo": true,
+    "skip": 2,
+    "imgsz": 320,
+    "fps_efetivo": 10.595562923662921,
+    "latencia_media_ms": 94.379129,
+    "p95_ms": 105.312535,
+    "updates_yolo": 50,
+    "objetos_totais": 10
+  }
+]

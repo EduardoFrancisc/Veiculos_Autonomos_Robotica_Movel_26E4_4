@@ -7,7 +7,6 @@ do exercicio 2 cobertos. Baseado nos exemplos independentes de
 """
 
 from pathlib import Path
-from time import perf_counter
 
 import cv2
 import numpy as np

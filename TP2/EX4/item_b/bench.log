@@ -1,0 +1,19 @@
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip2_img640_step_0000.png
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip2_img640_step_0050.png
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip2_img640_step_0099.png
+[skip2_img640] Step 100/100 | FPS 11.8 | objs 0
+CSV: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\metricas_100_skip2_img640.csv | registros: 100
+RESUMO [skip2_img640]: {'prefix': 'skip2_img640', 'steps': 100, 'yolo': True, 'skip': 2, 'imgsz': 640, 'fps_efetivo': 9.923592210182557, 'latencia_media_ms': 100.76996100000001, 'p95_ms': 114.487685, 'updates_yolo': 50, 'objetos_totais': 80}
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip1_img320_step_0000.png
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip1_img320_step_0050.png
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip1_img320_step_0099.png
+[skip1_img320] Step 100/100 | FPS 10.0 | objs 0
+CSV: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\metricas_100_skip1_img320.csv | registros: 100
+RESUMO [skip1_img320]: {'prefix': 'skip1_img320', 'steps': 100, 'yolo': True, 'skip': 1, 'imgsz': 320, 'fps_efetivo': 9.652545337112587, 'latencia_media_ms': 103.599617, 'p95_ms': 126.49230499999999, 'updates_yolo': 100, 'objetos_totais': 11}
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip2_img320_step_0000.png
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip2_img320_step_0050.png
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\skip2_img320_step_0099.png
+[skip2_img320] Step 100/100 | FPS 12.4 | objs 0
+CSV: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\metricas_100_skip2_img320.csv | registros: 100
+RESUMO [skip2_img320]: {'prefix': 'skip2_img320', 'steps': 100, 'yolo': True, 'skip': 2, 'imgsz': 320, 'fps_efetivo': 10.595562923662921, 'latencia_media_ms': 94.379129, 'p95_ms': 105.312535, 'updates_yolo': 50, 'objetos_totais': 10}
+BENCH DONE

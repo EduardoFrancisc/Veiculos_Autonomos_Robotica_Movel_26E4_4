@@ -1,0 +1,12 @@
+{
+  "prefix": "yolo_ativo",
+  "steps": 500,
+  "yolo": true,
+  "skip": 1,
+  "imgsz": 640,
+  "fps_efetivo": 7.062526992271922,
+  "latencia_media_ms": 141.59237919999998,
+  "p95_ms": 199.14842,
+  "updates_yolo": 500,
+  "objetos_totais": 533
+}

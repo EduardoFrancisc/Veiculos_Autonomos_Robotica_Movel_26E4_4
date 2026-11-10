@@ -1,0 +1,7 @@
+{
+  "steps": 200,
+  "faixas_validas": 90,
+  "velocidade_media": 7.503852030074016,
+  "desvio_medio_px": -22.76848172432034,
+  "metadados": "Medidas reais do MetaDrive; desvio/curvatura em pixels do plano da imagem (sem calibracao metrica)."
+}

@@ -1,0 +1,25 @@
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\baseline_sem_yolo_step_0000.png
+[baseline_sem_yolo] Step 100/500 | FPS 12.3 | objs 0
+[baseline_sem_yolo] Step 200/500 | FPS 7.6 | objs 0
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\baseline_sem_yolo_step_0250.png
+[baseline_sem_yolo] Step 300/500 | FPS 6.5 | objs 0
+[baseline_sem_yolo] Step 400/500 | FPS 9.2 | objs 0
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\baseline_sem_yolo_step_0499.png
+[baseline_sem_yolo] Step 500/500 | FPS 12.1 | objs 0
+CSV: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\metricas_500_baseline_sem_yolo.csv | registros: 500
+RESUMO [baseline_sem_yolo]: {'prefix': 'baseline_sem_yolo', 'steps': 500, 'yolo': False, 'skip': 1, 'imgsz': 640, 'fps_efetivo': 9.461215939312774, 'latencia_media_ms': 105.6946598, 'p95_ms': 158.436415, 'updates_yolo': 0, 'objetos_totais': 0}
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\yolo_ativo_step_0000.png
+[yolo_ativo] Step 100/500 | FPS 9.0 | objs 0
+[yolo_ativo] Step 200/500 | FPS 7.6 | objs 1
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\yolo_ativo_step_0250.png
+[yolo_ativo] Step 300/500 | FPS 5.4 | objs 0
+[yolo_ativo] Step 400/500 | FPS 6.6 | objs 0
+Imagem salva: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\yolo_ativo_step_0499.png
+[yolo_ativo] Step 500/500 | FPS 10.0 | objs 1
+CSV: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\metricas_500_yolo_ativo.csv | registros: 500
+RESUMO [yolo_ativo]: {'prefix': 'yolo_ativo', 'steps': 500, 'yolo': True, 'skip': 1, 'imgsz': 640, 'fps_efetivo': 6.9309915919184615, 'latencia_media_ms': 144.2794998, 'p95_ms': 210.58586999999997, 'updates_yolo': 500, 'objetos_totais': 532}
+Grafico salvo: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\serie_temporal_deteccoes_yolo_ativo.png
+FPS baseline: 9.46 | FPS YOLO: 6.93 | Degradacao: 26.7%
+Relatorio: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main\relatorio_ex4_item_b.md
+EX4 item B concluido em: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main
+EX4 item B concluido em: C:\Users\Usuario\Desktop\Veiculos_Autonomos_Robotica_Movel_26E4_4\TP2\EX4\item_b\resultados\main

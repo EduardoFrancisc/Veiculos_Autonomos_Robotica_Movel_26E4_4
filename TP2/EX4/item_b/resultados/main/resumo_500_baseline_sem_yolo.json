@@ -1,0 +1,12 @@
+{
+  "prefix": "baseline_sem_yolo",
+  "steps": 500,
+  "yolo": false,
+  "skip": 1,
+  "imgsz": 640,
+  "fps_efetivo": 7.254547482257422,
+  "latencia_media_ms": 137.844573,
+  "p95_ms": 198.281465,
+  "updates_yolo": 0,
+  "objetos_totais": 0
+}
